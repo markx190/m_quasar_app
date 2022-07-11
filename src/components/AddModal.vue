@@ -104,7 +104,7 @@ export default defineComponent({
         published: this.records.published
       }
       const result = await this.$store.dispatch('moduleExample/saveEditContent', data)
-      this.submitResponse === 200 ? [this.close(), this.triggerPositive(), this.getQStudents()] : this.submitResponse
+      this.submitResponse === 200 ? (() => { this.close(); this.triggerPositive(); this.getQStudents(); })() : this.submitResponse
       this.getQStudents()
     },
     async deleteRecord() {
