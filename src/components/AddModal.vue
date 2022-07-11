@@ -50,9 +50,10 @@ export default defineComponent({
       records: {
         id: 0,
         title: "",
-        description: ""
+        description: "",
+        published: null
       },
-      blueModel: true
+      blueModel: false
     }
   },
   props: ['vData', 'fModal', 'title'],
@@ -114,7 +115,7 @@ export default defineComponent({
       const callNotif = { ...this.triggerPositive }
       console.log(callNotif);
       await this.$store.dispatch('moduleExample/confirmDeleteRecord', data)
-      this.submitResponse === 200 ? [this.close(), this.triggerPositive(), this.getQStudents()] : this.submitResponse
+      this.submitResponse === 200 ? (() => { this.close(); this.triggerPositive(); this.getQStudents(); })() : this.submitResponse
       this.getQStudents()
 
     },
