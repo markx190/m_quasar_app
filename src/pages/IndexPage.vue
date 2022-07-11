@@ -61,6 +61,7 @@ export default defineComponent({
       this.loading = false
     },
     openEdit(row) {
+      console.log('status: ', row.published)
       console.log('row: ', row.id)
       this.medium = true
       this.formTitle = "Edit Record"

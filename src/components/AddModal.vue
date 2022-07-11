@@ -5,7 +5,7 @@
         <div class="text-h6">{{ title }}</div>
       </q-card-section>
       <div class="q-pa-md" style="max-width: 400px">
-        <q-form @submit="submitForm" @reset="onReset" class="q-gutter-md" ref="form">
+        <q-form @submit="submitForm" class="q-gutter-md" ref="form">
           <q-input v-if="title !== 'Delete Record'" filled v-model="records.title" label="Title" hint="Content Title"
             lazy-rules :rules="[val => val && val.length > 0 || 'This is required']" />
           <q-input v-if="title !== 'Delete Record'" filled v-model="records.description" label="Description"
@@ -14,7 +14,7 @@
             Are you sure you want to delete this record?
           </q-card-section>
           <q-toggle v-if="title !== 'Delete Record' && title === 'Edit Record'"
-            :label="`Staus is ${records.published === true ? 'Published' : 'Pending'} `" v-model="records.published" />
+            :label="`Status is ${records.published ? 'Published' : 'Pending'} `" v-model="records.published" />
           <div>
             <q-btn v-if="title === 'Delete Record'" label="Delete" type="submit" color="red" />
             <q-btn v-else label="Submit" type="submit" color="primary" />
@@ -60,9 +60,7 @@ export default defineComponent({
     ...mapGetters('moduleExample', [
       'qStudents',
       'submitResponse'
-    ]),
-
-
+    ])
   },
   watch: {
     vData: {
@@ -94,7 +92,7 @@ export default defineComponent({
       }
       const result = await this.$store.dispatch('moduleExample/saveContent', data)
       console.log('result :', result.status)
-      this.submitResponse === 200 ? (() => { this.close(); this.triggerPositive(); this.getQStudents(); this.onReset(); })() : this.submitResponse
+      this.submitResponse === 200 ? (() => { this.close(); this.triggerPositive(); this.getQStudents(); })() : this.submitResponse
 
     },
     async saveEditContent() {
@@ -123,10 +121,6 @@ export default defineComponent({
     submitForm() {
       console.log('action: ', this.title)
       this.title === 'Add New Record' ? this.saveContent() : this.title === 'Edit Record' ? this.saveEditContent() : this.deleteRecord()
-    },
-    onReset() {
-      this.records.title = null
-      this.records.description = null
     },
     close() {
       this.$emit('close')
