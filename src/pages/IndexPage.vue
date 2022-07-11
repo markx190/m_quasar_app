@@ -2,8 +2,14 @@
   <q-page>
     <div class="q-pa-md">
       <q-btn color="primary" label="Add New Record" icon="camera_enhance" class="q-mb-sm" @click="openAdd" />
+      <q-input borderless dense debounce="300" color="primary" placeholder="Search" v-model="filter">
+        <template v-slot:append>
+          <q-icon name="search" />
+        </template>
+      </q-input>
       <AddModal :fModal="medium" :vData="records" :title="formTitle" @close="closeDialog" @hide="closeDialog" />
-      <q-table title="Students" :rows="qStudents" :columns="columns" :loading="loading" row-key="title">
+      <q-table title="Students" :rows="qStudents" :columns="columns" :filter="filter" :loading="loading"
+        row-key="title">
         <template #loading>
           <q-inner-loading showing color="primary" />
         </template>
@@ -31,6 +37,7 @@ export default defineComponent({
     return {
       columns,
       loading,
+      filter
     }
   },
   data() {
@@ -127,5 +134,6 @@ const columns = [
   }
 ]
 const loading = ref(true)
+const filter = ref('')
 </script>
 
