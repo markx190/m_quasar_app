@@ -7,8 +7,8 @@
         <q-toolbar-title>
           <!-- Quasar University -->
         </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
+        <div class="q-mr-xl">Hi: {{ currentUser.firstname + ' ' + currentUser.lastname }}</div>
+        <div>Cylops Beta v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
 
@@ -19,7 +19,10 @@
         </q-item-label>
 
         <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
-
+      </q-list>
+      <q-list>
+        <q-icon v-if="currentUser" class="q-ml-md" size="24px" name="logout" @click="logout"></q-icon>
+        <a v-if="currentUser" @click="logout" href="" class="q-pa-lg logout">Logout</a>
       </q-list>
     </q-drawer>
 
@@ -31,32 +34,23 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
+import { mapGetters } from 'vuex'
 import EssentialLink from 'components/EssentialLink.vue'
 
 const linksList = [
-  {
-    title: 'Sign In',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: '/sign_in'
-  },
+
   {
     title: 'List of Students',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: '/'
+    caption: 'Master List',
+    icon: 'school',
+    link: '/student_list'
   },
+
   {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
+    title: 'Profile',
     caption: 'forum.quasar.dev',
     icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
+    link: '/profile'
   },
   {
     title: 'Twitter',
@@ -69,12 +63,6 @@ const linksList = [
     caption: '@QuasarFramework',
     icon: 'public',
     link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
   }
 ]
 
@@ -95,6 +83,30 @@ export default defineComponent({
         leftDrawerOpen.value = !leftDrawerOpen.value
       }
     }
-  }
+  },
+  computed: {
+    ...mapGetters('moduleExample', [
+      'currentUser'
+    ]),
+    currentUser() {
+      return this.$store.state.auth.user;
+    }
+  },
+  mounted() {
+    if (!this.currentUser) {
+      this.$router.push('/portal');
+    }
+  },
+  methods: {
+    async logout() {
+      await this.$store.dispatch('auth/logout')
+      this.$router.push('/portal')
+    }
+  },
 })
 </script>
+<style>
+.logout {
+  margin-left: 7px;
+}
+</style>

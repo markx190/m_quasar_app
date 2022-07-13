@@ -40,7 +40,19 @@ export default defineComponent({
       triggerPositive() {
         $q.notify({
           type: 'positive',
-          message: 'Form was submitted'
+          message: 'Record was submitted'
+        })
+      },
+      triggerInfo() {
+        $q.notify({
+          type: 'info',
+          message: 'Record was updated'
+        })
+      },
+      triggerNegative() {
+        $q.notify({
+          type: 'negative',
+          message: 'Record was deleted'
         })
       }
     }
@@ -94,7 +106,6 @@ export default defineComponent({
       const result = await this.$store.dispatch('moduleExample/saveContent', data)
       console.log('result :', result.status)
       this.submitResponse === 200 ? (() => { this.close(); this.triggerPositive(); this.getQStudents(); })() : this.submitResponse
-
     },
     async saveEditContent() {
       console.log('edit: ', this.records.title)
@@ -105,17 +116,17 @@ export default defineComponent({
         published: this.records.published
       }
       const result = await this.$store.dispatch('moduleExample/saveEditContent', data)
-      this.submitResponse === 200 ? (() => { this.close(); this.triggerPositive(); this.getQStudents(); })() : this.submitResponse
+      this.submitResponse === 200 ? (() => { this.close(); this.triggerInfo(); this.getQStudents(); })() : this.submitResponse
       this.getQStudents()
     },
     async deleteRecord() {
       let data = {
         id: this.records.id
       }
-      const callNotif = { ...this.triggerPositive }
+      const callNotif = { ...this.triggerNegative }
       console.log(callNotif);
       await this.$store.dispatch('moduleExample/confirmDeleteRecord', data)
-      this.submitResponse === 200 ? (() => { this.close(); this.triggerPositive(); this.getQStudents(); })() : this.submitResponse
+      this.submitResponse === 200 ? (() => { this.close(); this.triggerNegative(); this.getQStudents(); })() : this.submitResponse
       this.getQStudents()
 
     },

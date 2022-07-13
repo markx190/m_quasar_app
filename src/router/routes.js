@@ -1,18 +1,18 @@
-
 const routes = [
   {
-    path: '/',
+    path: '/portal',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/IndexPage.vue') },
       { path: '/sign_in', component: () => import('pages/SignInPage.vue') },
-
+      { path: '/register', component: () => import('pages/RegisterPage.vue') },
+      { path: '/profile', component: () => import('pages/ProfilePage.vue') },
+      { path: '/student_list', component: () => import('components/MainList.vue') }
+      // { path: '/', component: () => import('pages/IndexPage.vue') },
     ]
-    // path: '/signin',
-    // component: () => import('layouts/SignIn.vue'),
-    // children: [
-    //   { path: '/signin', component: () => import('pages/SignInPage.vue') }
-    // ]
+  },
+  {
+    path: '/',
+    component: () => import('pages/FrontPage.vue'),
   },
 
   // Always leave this as last one,

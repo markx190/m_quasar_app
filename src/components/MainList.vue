@@ -65,7 +65,7 @@ export default defineComponent({
   mounted() {
     this.getQStudents()
     if (!this.currentUser) {
-      this.$router.push('/sign_in');
+      this.$router.push('/');
     }
   },
   methods: {
