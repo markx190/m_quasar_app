@@ -1,6 +1,8 @@
 <template>
-  <div>
-    <q-icon class="q-pa-md" name="login" />Register
+  <q-page class=" q-pa-md">
+    <div class="q-pa-md">
+      <q-avatar size=" 100px" font-size="52px" color="teal" text-color="white" icon="account_circle" />
+    </div>
     <div class="q-pa-md" style="max-width: 400px">
       <q-form @submit="handleRegister" @reset="onReset" class="q-gutter-md">
         <q-input type="text" filled v-model="userInput.firstname" label="First Name *" hint="Your First Name" lazy-rules
@@ -23,7 +25,7 @@
         </div>
       </q-form>
     </div>
-  </div>
+  </q-page>
 </template>
 <script>
 import { mapGetters } from 'vuex'
@@ -61,7 +63,7 @@ export default {
   },
   mounted() {
     if (this.loggedIn) {
-      this.$router.push('/profile');
+      this.$router.push("/profile");
     }
   },
   methods: {
@@ -75,7 +77,7 @@ export default {
         password: this.userInput.password
       }
       await this.$store.dispatch("auth/register", data)
-      this.$router.push('/')
+      alert('saved')
     },
     isValidEmail(val) {
       const emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;

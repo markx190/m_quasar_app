@@ -4,15 +4,19 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '/sign_in', component: () => import('pages/SignInPage.vue') },
-      { path: '/register', component: () => import('pages/RegisterPage.vue') },
       { path: '/profile', component: () => import('pages/ProfilePage.vue') },
       { path: '/student_list', component: () => import('components/MainList.vue') }
       // { path: '/', component: () => import('pages/IndexPage.vue') },
+      // { path: '/register', component: () => import('pages/RegisterPage.vue') }
     ]
   },
   {
     path: '/',
     component: () => import('pages/FrontPage.vue'),
+  },
+  {
+    path: '/register',
+    component: () => import('pages/RegisterPage.vue'),
   },
 
   // Always leave this as last one,

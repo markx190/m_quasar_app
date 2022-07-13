@@ -45,7 +45,6 @@ const linksList = [
     icon: 'school',
     link: '/student_list'
   },
-
   {
     title: 'Profile',
     caption: 'forum.quasar.dev',
