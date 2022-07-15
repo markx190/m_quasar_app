@@ -8,7 +8,7 @@
           <!-- Quasar University -->
         </q-toolbar-title>
         <div class="q-mr-xl">Hi: {{ currentUser.firstname + ' ' + currentUser.lastname }}</div>
-        <div>Cylops Beta v{{ $q.version }}</div>
+        <!-- <div>Cylops Beta v{{ $q.version }}</div> -->
       </q-toolbar>
     </q-header>
 
@@ -84,22 +84,24 @@ export default defineComponent({
     }
   },
   computed: {
-    ...mapGetters('moduleExample', [
+    ...mapGetters('appStore', [
+      'loggedIn',
       'currentUser'
     ]),
-    currentUser() {
-      return this.$store.state.auth.user;
-    }
+    ...mapGetters({
+      loggedIn: 'appStore/currentUser',
+      currentUser: 'appStore/currentUser'
+    })
   },
   mounted() {
     if (!this.currentUser) {
-      this.$router.push('/portal');
+      this.$router.push('/');
     }
   },
   methods: {
     async logout() {
-      await this.$store.dispatch('auth/logout')
-      this.$router.push('/portal')
+      await this.$store.dispatch('appStore/logout')
+      this.$router.push('/')
     }
   },
 })

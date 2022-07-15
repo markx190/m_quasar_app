@@ -1,10 +1,24 @@
-export function setSubmitResponse(state, submitResponse) {
-  state.submitResponse = submitResponse
+export function regResponse(state, regResponse) {
+  state.regResponse = regResponse
+}
+export function authResponse(state, authResponse) {
+  state.authResponse = authResponse
+}
+export function isSuccess(state, isSuccess) {
+  state.isSuccess = isSuccess
 }
 export function registerSuccess(state) {
-  console.log('statex: ', state.status)
-  state.status.loggedIn = false;
+  state.appUser.uStatus.loggedIn = false
 }
-export function registerFailure(state) {
-  state.status.loggedIn = false;
-}   
+export function setLoggedIn(state) {
+  state.appUser.uStatus.loggedIn = true
+}
+export function loginFailure(state) {
+  state.appUser.uStatus.loggedIn = false
+}
+export function logOutUser(state) {
+  state.appUser.uStatus.loggedIn = false
+}
+export function setCurrentUser(state, localUser) {
+  state.localUser = localUser
+}

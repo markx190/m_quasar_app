@@ -2,6 +2,11 @@
   <div>
     <q-icon class="q-pa-md" name="login" />Sign In Here
     <div class="q-pa-md" style="max-width: 400px">
+      <div>
+        <q-label>
+          {{ signInMessage }}
+        </q-label>
+      </div>
       <q-form @submit="handleLogin" class="q-gutter-md">
         <q-input filled v-model="userInput.username" name="username" label="Username *" hint="Username" lazy-rules
           :rules="[val => val && val.length > 0 || 'Please enter you username']" />
@@ -22,6 +27,7 @@
 </template>
 <script>
 import { defineComponent, ref } from 'vue'
+import { mapGetters } from 'vuex'
 
 export default defineComponent({
   name: 'Front-Page',
@@ -39,40 +45,32 @@ export default defineComponent({
         username: '',
         email: '',
         password: ''
-      }
+      },
+      signInMessage: ''
     }
   },
   computed: {
-    loggedIn() {
-      return this.$store.state.auth.status.loggedIn;
-    },
+    ...mapGetters({
+      loggedIn: 'appStore/loggedIn',
+      regResponse: 'appStore/regResponse',
+      authResponse: 'appStore/authResponse'
+    })
   },
   created() {
-    if (this.loggedIn) {
-      this.$router.push("/profile");
-    }
+    console.log('login: ', this.loggedIn)
+    !this.loggedIn ? this.$router.push('/') : null
   },
   methods: {
-    handleLogin(user) {
+    async handleLogin(user) {
       this.loading = true;
       let data = {
         username: this.userInput.username,
         password: this.userInput.password
       }
-      this.$store.dispatch("auth/login", data).then(
-        () => {
-          this.$router.push("/profile");
-        },
-        (error) => {
-          this.loading = false;
-          this.message =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-        }
-      );
+      const logged = await this.$store.dispatch('appStore/login', data)
+      console.log('logged: ', this.authResponse)
+      this.signInMessage = this.authResponse
+      !this.loggedIn ? this.$router.push('/') : this.$router.push('/profile')
     },
   }
 })

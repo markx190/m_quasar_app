@@ -14,23 +14,26 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Profile-Page',
   computed: {
-    currentUser() {
-      return this.$store.state.auth.user;
-    }
+    ...mapGetters('appStore', [
+      'currentUser',
+      'loggedIn'
+    ])
   },
   mounted() {
-    if (!this.currentUser) {
-      this.$router.push('/');
-    }
+    console.log('profile: ', this.currentUser)
+    this.loggedIn ? this.$router.push('/profile') : this.$router.push('/')
+    this.currentUser ? this.$router.push('/profile') : this.$router.push('/')
   },
   methods: {
-    async logout() {
-      await this.$store.dispatch('auth/logout')
-      this.$router.push('/');
-    }
+    // async logout() {
+    //   await this.$store.dispatch('auth/logout')
+    //   this.$router.push('/');
+    // }
   }
 };
 </script>

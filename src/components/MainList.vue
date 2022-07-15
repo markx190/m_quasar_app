@@ -55,18 +55,18 @@ export default defineComponent({
   },
 
   computed: {
-    ...mapGetters('moduleExample', [
-      'qStudents'
-    ]),
-    currentUser() {
-      return this.$store.state.auth.user;
-    }
+    ...mapGetters({
+      loggedIn: 'appStore/loggedIn',
+      currentUser: 'appStore/currentUser',
+      qStudents: 'moduleExample/qStudents'
+    })
+
   },
+
   mounted() {
     this.getQStudents()
-    if (!this.currentUser) {
-      this.$router.push('/');
-    }
+    console.log('current: ', this.loggedIn)
+    !this.currentUser ? this.$router.push('/') : this.$router.push('/student_list')
   },
   methods: {
     async getQStudents() {

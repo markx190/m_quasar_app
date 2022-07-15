@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { LocalStorage } from 'quasar'
 const API_URL = 'http://localhost:8080/api/auth/';
 class AuthService {
   async login(user) {
@@ -9,8 +9,10 @@ class AuthService {
         password: user.password
       })
       .then(response => {
+        console.log('res: ', response)
         if (response.data.accessToken) {
-          localStorage.setItem('user', JSON.stringify(response.data));
+          LocalStorage.set('user', response.data)
+          // localStorage.setItem('user', JSON.stringify(response.data));
         }
         return response.data;
       });

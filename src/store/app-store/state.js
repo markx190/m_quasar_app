@@ -1,22 +1,19 @@
+import { LocalStorage } from 'quasar'
 export default function () {
-  const user = JSON.parse(localStorage.getItem('user'));
-  const initialState = user
-    ? { status: { loggedIn: true }, user }
-    : { status: { loggedIn: false }, user: null };
+  const localUser = LocalStorage.getItem('user')
+  console.log('local user: ', localUser)
   return {
     // state
-    state: {
-      loggedIn: false,
-      initialState,
-      user,
-      currentUser: {
-        username: '',
-        email: '',
-        accessToken: ''
-      },
-      status: {
+    regResponse: '',
+    authResponse: '',
+    isSuccess: null,
+    user: null,
+    appUser: {
+      uStatus: {
         loggedIn: false
       }
-    }
+    },
+    localUser: !localUser ? {} : localUser
   }
 }
+
