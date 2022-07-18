@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-icon class="q-pa-md" name="login" />Sign In Here
+    <q-icon class="q-pa-md" name="login" size="50px" />Sign In To FOOTPRINTS
     <div class="q-pa-md" style="max-width: 400px">
       <div>
         <q-label>
@@ -18,7 +18,8 @@
           </template>
         </q-input>
         <div>
-          <q-btn label="Submit" type="submit" color="primary" />
+          <q-btn label="Submit" type="Sign In" color="primary" />
+          Don't have an account yet?
           <q-btn label="Register" to="/register" type="button" color="primary" flat class="q-ml-sm" />
         </div>
       </q-form>

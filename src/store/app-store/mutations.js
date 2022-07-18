@@ -22,3 +22,20 @@ export function logOutUser(state) {
 export function setCurrentUser(state, localUser) {
   state.localUser = localUser
 }
+export function setQProjects(state, qProjects) {
+  state.qProjects = qProjects
+}
+export function setSubmitStatus(state, submitStatus) {
+  state.submitStatus = submitStatus
+}
+export function setPageStatus(state, pageStatus) {
+  state.pageStatus = pageStatus
+}
+export function updateProject(state, payload) {
+  for (const i in state.qProjects) {
+    if (state.qProjects[i].id === payload.id) {
+      state.qProjects[i] = payload;
+      break;
+    }
+  }
+}

@@ -15,9 +15,8 @@
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
         <q-item-label header>
-          QUASAR UNIVERSITY
+          FOOTPRINTS
         </q-item-label>
-
         <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
       </q-list>
       <q-list>
@@ -38,13 +37,6 @@ import { mapGetters } from 'vuex'
 import EssentialLink from 'components/EssentialLink.vue'
 
 const linksList = [
-
-  {
-    title: 'List of Students',
-    caption: 'Master List',
-    icon: 'school',
-    link: '/student_list'
-  },
   {
     title: 'Profile',
     caption: 'forum.quasar.dev',
@@ -52,16 +44,16 @@ const linksList = [
     link: '/profile'
   },
   {
-    title: 'Twitter',
-    caption: '@quasarframework',
+    title: 'Projects',
+    caption: 'List of Projects',
     icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
+    link: '/project_list'
   },
   {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
+    title: 'Rocket',
+    caption: 'Thumbnail view',
     icon: 'public',
-    link: 'https://facebook.quasar.dev'
+    link: '/project_map'
   }
 ]
 
@@ -84,10 +76,6 @@ export default defineComponent({
     }
   },
   computed: {
-    ...mapGetters('appStore', [
-      'loggedIn',
-      'currentUser'
-    ]),
     ...mapGetters({
       loggedIn: 'appStore/currentUser',
       currentUser: 'appStore/currentUser'

@@ -1,11 +1,13 @@
 import { LocalStorage } from 'quasar'
 export default function () {
   const localUser = LocalStorage.getItem('user')
-  console.log('local user: ', localUser)
   return {
     // state
+    apiURL: 'http://localhost:8080/api',
     regResponse: '',
     authResponse: '',
+    submitStatus: '',
+    pageStatus: '',
     isSuccess: null,
     user: null,
     appUser: {
@@ -13,7 +15,8 @@ export default function () {
         loggedIn: false
       }
     },
-    localUser: !localUser ? {} : localUser
+    localUser: !localUser ? {} : localUser,
+    qProjects: []
   }
 }
 

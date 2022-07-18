@@ -5,7 +5,9 @@ const routes = [
     children: [
       { path: '/sign_in', component: () => import('pages/SignInPage.vue') },
       { path: '/profile', component: () => import('pages/ProfilePage.vue') },
-      { path: '/student_list', component: () => import('components/MainList.vue') }
+      { path: '/student_list', component: () => import('components/MainList.vue') },
+      { path: '/project_list', component: () => import('components/ListOfProjects.vue') },
+      { path: '/project_map', component: () => import('components/MapProjects.vue') }
       // { path: '/', component: () => import('pages/IndexPage.vue') },
       // { path: '/register', component: () => import('pages/RegisterPage.vue') }
     ]

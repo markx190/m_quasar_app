@@ -1,23 +1,26 @@
 <template>
   <q-page>
     <div class="q-pa-md">
-      <q-btn color="primary" label="Add New Record" icon="camera_enhance" class="q-mb-sm" @click="openAdd" />
+      <q-btn color="primary" label="Add New Project" icon="camera_enhance" class="q-mb-sm" @click="openAdd" />
+
       <q-input borderless dense debounce="300" color="primary" placeholder="Search" v-model="filter">
         <template v-slot:append>
           <q-icon name="search" />
         </template>
       </q-input>
-      <AddModal :fModal="medium" :vData="records" :title="formTitle" @close="closeDialog" @hide="closeDialog" />
-      <q-table title="Students" :rows="qStudents" :columns="columns" :filter="filter" :loading="loading"
+      {{ pageError }}
+      <AddNewProjectModal :fModal="medium" :vData="projects" :title="formTitle" @close="closeDialog"
+        @hide="closeDialog" />
+      <q-table title="PROJECTS" :rows="qProjects" :columns="columns" :filter="filter" :loading="loading"
         row-key="title">
-        <template #loading>
-          <q-inner-loading showing color="primary" />
-        </template>
         <template v-slot:body-cell-actions="props">
           <q-td :props="props">
             <q-btn round icon="mode_edit" color="primary" @click="openEdit(props.row)" class="q-mr-sm" />
             <q-btn round icon="delete" color="red" @click="deleteModal(props.row)" />
           </q-td>
+        </template>
+        <template #loading>
+          <q-inner-loading showing color="primary" />
         </template>
       </q-table>
     </div>
@@ -26,12 +29,12 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import { mapGetters } from 'vuex'
-import AddModal from 'components/AddModal.vue'
+import AddNewProjectModal from 'components/AddNewProjectModal.vue'
 
 export default defineComponent({
   name: 'IndexPage',
   components: {
-    AddModal
+    AddNewProjectModal
   },
   setup() {
     return {
@@ -43,14 +46,17 @@ export default defineComponent({
   data() {
     return {
       medium: false,
-      formTitle: "",
-      formAction: "",
-      records: {
+      formTitle: '',
+      formAction: '',
+      projects: {
         id: 0,
-        title: "",
-        description: "",
-        published: null
-      }
+        title: '',
+        description: '',
+        status: null,
+        checked_by: '',
+        approved_by: ''
+      },
+      pageError: ''
     }
   },
 
@@ -58,45 +64,51 @@ export default defineComponent({
     ...mapGetters({
       loggedIn: 'appStore/loggedIn',
       currentUser: 'appStore/currentUser',
-      qStudents: 'moduleExample/qStudents'
+      qProjects: 'appStore/qProjects',
+      pageStatus: 'appStore/pageStatus'
     })
+
   },
 
   mounted() {
-    this.getQStudents()
-    console.log('current: ', this.loggedIn)
-    !this.currentUser ? this.$router.push('/') : this.$router.push('/student_list')
+    this.getQProjects()
+    !this.currentUser ? this.$router.push('/') : this.$router.push('/project_list')
   },
   methods: {
-    async getQStudents() {
-      await this.$store.dispatch('moduleExample/getQStudents')
+    async getQProjects() {
+      const getData = await this.$store.dispatch('appStore/getQProjects')
       this.loading = false
+      console.log('result: ', getData);
+      !getData ? this.pageError = '...Network Error: Connection Refused' : null
     },
     openEdit(row) {
-      console.log('status: ', row.published)
-      console.log('row: ', row.id)
       this.medium = true
-      this.formTitle = "Edit Record"
-      this.records = {
+      this.formTitle = "Edit Project"
+      this.projects = {
         id: row.id,
         title: row.title,
         description: row.description,
-        published: row.published
+        status: row.status,
+        author: row.author,
+        checked_by: row.checked_by,
+        approved_by: row.approved_by
       }
     },
     openAdd() {
       this.medium = true
-      this.formTitle = "Add New Record"
-      this.records = {
+      this.formTitle = "Add New Project"
+      this.projects = {
         id: 0,
         title: '',
-        description: ''
+        description: '',
+        author: '',
+        date_created: ''
       }
     },
     deleteModal(row) {
       this.medium = true
-      this.formTitle = "Delete Record"
-      this.records = {
+      this.formTitle = "Delete Project"
+      this.projects = {
         id: row.id
       }
     },
@@ -110,7 +122,7 @@ const columns = [
   {
     name: 'title',
     required: true,
-    label: 'NAME',
+    label: 'TITLE',
     align: 'left',
     field: row => row.title,
     format: val => `${val}`,
@@ -124,10 +136,24 @@ const columns = [
     sortable: true
   },
   {
-    name: 'published',
+    name: 'status',
     align: 'left',
     label: 'STATUS',
-    field: 'published',
+    field: 'status',
+    sortable: true
+  },
+  {
+    name: 'author',
+    align: 'left',
+    label: 'AUTHOR',
+    field: 'author',
+    sortable: true
+  },
+  {
+    name: 'date_created',
+    align: 'left',
+    label: 'DATE COMPLETED',
+    field: 'date_created',
     sortable: true
   },
   {

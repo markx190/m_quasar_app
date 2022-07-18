@@ -82,8 +82,7 @@ export default defineComponent({
   },
 
   mounted() {
-    console.log('hoy reg response: ', this.regResponse)
-    this.loggedIn ? this.$router.push('/profile') : '/register'
+    this.loggedIn ? this.$router.push('/profile') : this.$router.push('/register')
   },
   methods: {
     async handleRegister() {

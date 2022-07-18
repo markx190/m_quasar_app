@@ -1,5 +1,7 @@
 import { LocalStorage } from 'quasar'
 import AuthService from '../../services/auth.service';
+import axios from "axios";
+
 // const localUser = JSON.parse(localStorage.getItem('user'));
 
 export async function register(context, user) {
@@ -14,8 +16,8 @@ export async function register(context, user) {
       return response.data
     })
     .catch((error) => {
-      console.log('error: ', error)
-      context.commit('regResponse', error);
+      console.log('error: ', error.response.data.message)
+      context.commit('regResponse', error.response.data.message);
       context.commit('isSuccess', false)
       return error
     })
@@ -46,4 +48,63 @@ export async function logout(context, user) {
     .catch((error) => {
       return error
     })
+}
+
+export async function getQProjects(context) {
+  await new Promise((res) => setTimeout(() => res(), 2000));
+  try {
+    const response = await axios.get('http://localhost:8080/api/list_of_projects')
+    for (const item of response.data) {
+      item.status = item.status ? 'In Progress' : 'Deployed'
+    }
+    console.log('projects: ', response.data)
+    context.commit('setQProjects', response.data)
+    return response
+  } catch (err) {
+    console.log(err);
+    context.commit('setPageStatus', 'Network Error')
+
+  }
+}
+
+export async function saveProject(context, payload) {
+  return await axios.post('http://localhost:8080/api/list_of_projects', payload)
+    .then((response) => {
+      context.commit('setSubmitStatus', response.status)
+      let res = response
+      console.log('status: ', res)
+      return res
+    })
+    .catch((e) => {
+      console.log('uy: ', e.request)
+      context.commit('setSubmitStatus', e.message);
+      return e.message
+    });
+}
+
+export async function saveEditProject(context, payload) {
+  console.log('id: ', payload.id)
+  return await axios.put(`http://localhost:8080/api/list_of_projects/${payload.id}`, payload)
+    .then((response) => {
+      context.commit("updateProject", response.data);
+      context.commit('setSubmitStatus', response.status)
+      let res = response
+      return res
+    })
+    .catch((e) => {
+      context.commit('setSubmitStatus', e.message);
+      return e.request.status
+    });
+}
+
+export async function confirmDeleteProject(context, payload) {
+  console.log('pay: ', payload)
+  await axios.delete(`http://localhost:8080/api/list_of_projects/${payload.id}`)
+    .then((response) => {
+      context.commit('setSubmitStatus', response.status)
+    })
+    .catch((e) => {
+      context.commit('setSubmitStatus', e.message);
+      return e.request.status
+    });
 }
