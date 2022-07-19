@@ -25,6 +25,9 @@ export function setCurrentUser(state, localUser) {
 export function setQProjects(state, qProjects) {
   state.qProjects = qProjects
 }
+export function setSingleProject(state, singleProject) {
+  state.singleProject = singleProject
+}
 export function setSubmitStatus(state, submitStatus) {
   state.submitStatus = submitStatus
 }

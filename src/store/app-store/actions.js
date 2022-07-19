@@ -2,8 +2,6 @@ import { LocalStorage } from 'quasar'
 import AuthService from '../../services/auth.service';
 import axios from "axios";
 
-// const localUser = JSON.parse(localStorage.getItem('user'));
-
 export async function register(context, user) {
   return await AuthService.register(user)
     .then((response) => {
@@ -55,11 +53,26 @@ export async function getQProjects(context) {
   try {
     const response = await axios.get('http://localhost:8080/api/list_of_projects')
     for (const item of response.data) {
-      item.status = item.status ? 'In Progress' : 'Deployed'
+      item.status = item.status ? 'Deployed' : 'In Progress'
     }
     console.log('projects: ', response.data)
     context.commit('setQProjects', response.data)
     return response
+  } catch (err) {
+    console.log(err);
+    context.commit('setPageStatus', 'Network Error')
+
+  }
+}
+
+export async function getSingleProject(context, payload) {
+  console.log('payload: ', payload)
+  await new Promise((res) => setTimeout(() => res(), 2000));
+  try {
+    const response = await axios.get(`http://localhost:8080/api/list_of_projects/${payload.id}`)
+    console.log('projects: ', response.data.id)
+    context.commit('setSingleProject', response.data)
+    return response.data.id
   } catch (err) {
     console.log(err);
     context.commit('setPageStatus', 'Network Error')

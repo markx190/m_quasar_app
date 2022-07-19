@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-icon class="q-pa-md" name="login" size="50px" />Sign In To FOOTPRINTS
+    <q-icon class="q-pa-md" name="login" size="50px" />Sign In To <b>NASANA</b>
     <div class="q-pa-md" style="max-width: 400px">
       <div>
         <q-label>

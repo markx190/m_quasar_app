@@ -1,32 +1,41 @@
 <template>
   <q-page>
     <div class="q-pa-md row items-start q-gutter-md">
+      <TrendModal :fModal="trendModal" :vData="projects" @close="closeDialog" @hide="closeDialog" />
       <q-card class="my-card" v-for="project in qProjects" :key="project">
         <div class="q-pa-md">
-          <q-avatar size="45px" color="orange">{{ Array.from(project.author)[0] }}</q-avatar>
+          <q-avatar size="55px" color="orange">{{ Array.from(project.author)[0] }}</q-avatar>
         </div>
         <q-card-section class="q-pt-none">
           Title: {{ project.title }}
         </q-card-section>
         <q-separator inset />
         <q-card-section>
-          Description: {{ project.description }} <br>
+          <!-- Description: {{ project.description }} <br> -->
+          Author: {{ project.author }}<br>
           Status: {{ project.status === 0 ? 'In-Progress' : 'Deployed' }}<br>
-          Author: {{ project.author }}
+          Date Completed: {{ project.date_created }}<br>
         </q-card-section>
         <q-card-section>
-          Date Completed: {{ project.date_created }}
+          <q-btn flat round color="primary" icon="insert_comment" @click="getSingle(project)" />
         </q-card-section>
       </q-card>
     </div>
   </q-page>
 </template>
+
 <script>
+import { log } from 'console'
+
 import { defineComponent, ref } from 'vue'
 import { mapGetters } from 'vuex'
+import TrendModal from 'components/TrendModal.vue'
 
 export default defineComponent({
   name: 'ProjectMap',
+  components: {
+    TrendModal
+  },
   setup() {
     return {
       loading,
@@ -35,7 +44,16 @@ export default defineComponent({
   },
   data() {
     return {
+      trendModal: false,
       pageError: '',
+      projects: {
+        id: 0,
+        title: '',
+        description: '',
+        status: '',
+        author: '',
+        date_created: ''
+      }
     }
   },
 
@@ -44,26 +62,47 @@ export default defineComponent({
       loggedIn: 'appStore/loggedIn',
       currentUser: 'appStore/currentUser',
       qProjects: 'appStore/qProjects',
-      pageStatus: 'appStore/pageStatus'
+      pageStatus: 'appStore/pageStatus',
+      singProject: 'appStonre/singleProject'
     })
 
   },
 
   mounted() {
     this.getQProjects()
-    !this.currentUser ? this.$router.push('/') : this.$router.push('/project_map')
   },
   methods: {
     async getQProjects() {
+      this.loading = true
       const getData = await this.$store.dispatch('appStore/getQProjects')
       this.loading = false
-      console.log('result: ', getData);
       !getData ? this.pageError = '...Network Error: Connection Refused' : null
     },
+
+    getSingle(project) {
+      console.log('pro: ', project)
+      this.trendModal = true
+      this.projects = {
+        id: project.id,
+        title: project.title,
+        description: project.description,
+        status: project.status,
+        author: project.author
+      }
+    },
+    closeDialog() {
+      this.trendModal = false
+    }
 
   }
 })
 const loading = ref(true)
 const filter = ref('')
 </script>
+<style scoped>
+.q-card {
+  width: 380px;
+  height: 290px
+}
+</style>
 

@@ -7,7 +7,9 @@ const routes = [
       { path: '/profile', component: () => import('pages/ProfilePage.vue') },
       { path: '/student_list', component: () => import('components/MainList.vue') },
       { path: '/project_list', component: () => import('components/ListOfProjects.vue') },
-      { path: '/project_map', component: () => import('components/MapProjects.vue') }
+      { path: '/project_map', component: () => import('components/MapProjects.vue') },
+      { path: '/trend_it/:id', component: () => import('components/TrendProject.vue') }
+
       // { path: '/', component: () => import('pages/IndexPage.vue') },
       // { path: '/register', component: () => import('pages/RegisterPage.vue') }
     ]

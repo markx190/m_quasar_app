@@ -7,7 +7,8 @@
         <q-toolbar-title>
           <!-- Quasar University -->
         </q-toolbar-title>
-        <div class="q-mr-xl">Hi: {{ currentUser.firstname + ' ' + currentUser.lastname }}</div>
+        <!-- <div class="q-mr-sm">Hi: {{ currentUser.firstname + ' ' + currentUser.lastname }}</div> -->
+        <q-avatar size="34px" color="cyan">{{ Array.from(currentUser.firstname)[0] }}</q-avatar>
         <!-- <div>Cylops Beta v{{ $q.version }}</div> -->
       </q-toolbar>
     </q-header>
@@ -15,7 +16,7 @@
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
         <q-item-label header>
-          FOOTPRINTS
+          <b>NASANA</b>
         </q-item-label>
         <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
       </q-list>

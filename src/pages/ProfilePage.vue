@@ -1,17 +1,17 @@
 <template>
   <q-page>
     <div class="q-pa-md row items-start q-gutter-md">
-      <q-card class="my-card q-pa-md">
+      <q-card class="my-card">
         <div>
-          <q-icon class="p-icon" name="account_circle" size="60px" color="cyan" />
+          <div class="q-pa-md">
+            <q-avatar size="55px" color="cyan">{{ Array.from(currentUser.firstname)[0] }}</q-avatar>
+          </div>
         </div>
-        <q-card-section class="q-pt-none">
-          {{ currentUser.firstname + ' ' + currentUser.lastname }}
+        <q-card-section>
+          Full Name: <b>{{ currentUser.firstname + ' ' + currentUser.lastname }}</b><br>
+          Username: <b>{{ currentUser.username }}</b>
         </q-card-section>
         <q-separator inset />
-        <q-card-section>
-          User ID Number: {{ currentUser.id }}
-        </q-card-section>
       </q-card>
     </div>
   </q-page>
@@ -41,8 +41,13 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .p-icon {
   margin-left: 10px
+}
+
+.q-card {
+  width: 1590px;
+  height: 210px
 }
 </style>

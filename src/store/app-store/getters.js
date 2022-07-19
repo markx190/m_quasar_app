@@ -26,5 +26,8 @@ export function submitStatus(state) {
 export function pageStatus(state) {
   return state.pageStatus
 }
+export function singleProject(state) {
+  return state.singleProject
+}
 
 

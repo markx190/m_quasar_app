@@ -18,7 +18,8 @@
             Are you sure you want to delete this project?
           </q-card-section>
           <q-toggle v-if="title !== 'Delete Project' && title === 'Edit Project'"
-            :label="`Status is ${projects.status ? 'Deployed' : 'In Progress'} `" v-model="projects.status" />
+            :label="`Status is ${projects.status ? 'Deployed' : 'In Progress'} `" v-model="projects.status" lazy-rules
+            :rules="[val => val && val.length > 0 || 'This is required']" />
           <div>
             <q-btn v-if="title === 'Delete Project'" label="Delete" type="submit" color="red" />
             <q-btn v-else label="Submit" type="submit" color="primary" />
