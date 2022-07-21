@@ -1,7 +1,7 @@
 <template>
   <q-page>
     <div class="q-pa-md row items-start q-gutter-md">
-      <TrendModal :fModal="trendModal" :vData="projects" @close="closeDialog" @hide="closeDialog" />
+      <TrendModal :fModal="trendModal" :vData="projects" :vForum="forums" @close="closeDialog" @hide="closeDialog" />
       <q-card class="my-card" v-for="project in qProjects" :key="project">
         <div class="q-pa-md">
           <q-avatar size="55px" color="orange">{{ Array.from(project.author)[0] }}</q-avatar>
@@ -25,7 +25,6 @@
 </template>
 
 <script>
-import { log } from 'console'
 
 import { defineComponent, ref } from 'vue'
 import { mapGetters } from 'vuex'
@@ -53,6 +52,11 @@ export default defineComponent({
         status: '',
         author: '',
         date_created: ''
+      },
+      forums: {
+        id: 0,
+        comment: '',
+        encoded_by: ''
       }
     }
   },
@@ -78,9 +82,7 @@ export default defineComponent({
       this.loading = false
       !getData ? this.pageError = '...Network Error: Connection Refused' : null
     },
-
     getSingle(project) {
-      console.log('pro: ', project)
       this.trendModal = true
       this.projects = {
         id: project.id,
@@ -91,7 +93,14 @@ export default defineComponent({
       }
     },
     closeDialog() {
-      this.trendModal = false
+      this.trendModal = false,
+        this.forums = {
+          id: 0,
+          comment: '',
+          user_id_no: '',
+          encoded_by: '',
+          project_id_no: ''
+        }
     }
 
   }

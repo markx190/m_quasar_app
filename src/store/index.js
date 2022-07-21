@@ -3,6 +3,7 @@ import { createStore } from 'vuex'
 
 import moduleExample from './module-example'
 import appStore from './app-store'
+import commentStore from './comment-store'
 
 /*
  * If not building with SSR mode, you can
@@ -18,6 +19,7 @@ export default store(function (/* { ssrContext } */) {
     modules: {
       moduleExample,
       appStore,
+      commentStore
     },
 
     // enable strict mode (adds overhead!)

@@ -90,6 +90,7 @@ export default defineComponent({
         description: row.description,
         status: row.status,
         author: row.author,
+        date_created: row.date_created,
         checked_by: row.checked_by,
         approved_by: row.approved_by
       }

@@ -12,14 +12,14 @@
             hint="Content Description" lazy-rules :rules="[val => val && val.length > 0 || 'This is required']" />
           <q-input v-if="title !== 'Delete Project'" filled v-model="projects.author" label="Author" hint="Author"
             lazy-rules :rules="[val => val && val.length > 0 || 'This is required']" />
-          <q-input v-if="title !== 'Delete Project'" type="date" filled v-model="projects.date_created"
-            hint="Date Completed" lazy-rules :rules="[val => val && val.length > 0 || 'This is required']" />
+          <q-input v-if="title !== 'Delete Project'" filled v-model="projects.date_created" hint="Date Completed"
+            lazy-rules :rules="[val => val && val.length > 0 || 'This is required']" />
           <q-card-section v-else class="q-pt-none">
             Are you sure you want to delete this project?
           </q-card-section>
           <q-toggle v-if="title !== 'Delete Project' && title === 'Edit Project'"
-            :label="`Status is ${projects.status ? 'Deployed' : 'In Progress'} `" v-model="projects.status" lazy-rules
-            :rules="[val => val && val.length > 0 || 'This is required']" />
+            :label="`Status is ${projects.status ? 'Deployed' : 'In Progress'} `" v-model="projects.status"
+            lazy-rules />
           <div>
             <q-btn v-if="title === 'Delete Project'" label="Delete" type="submit" color="red" />
             <q-btn v-else label="Submit" type="submit" color="primary" />

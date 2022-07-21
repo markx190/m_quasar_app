@@ -16,7 +16,7 @@
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
         <q-item-label header>
-          <b>NASANA</b>
+          <b>FOOTPRINTS</b>
         </q-item-label>
         <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
       </q-list>
@@ -45,17 +45,18 @@ const linksList = [
     link: '/profile'
   },
   {
-    title: 'Projects',
-    caption: 'List of Projects',
-    icon: 'rss_feed',
-    link: '/project_list'
+    title: 'Public',
+    caption: 'Thumbnail view',
+    icon: 'dashboard',
+    link: '/project_map'
   },
   {
-    title: 'Rocket',
-    caption: 'Thumbnail view',
-    icon: 'public',
-    link: '/project_map'
-  }
+    title: 'Projects',
+    caption: 'List of Projects',
+    icon: 'work',
+    link: '/project_list'
+  },
+
 ]
 
 export default defineComponent({
